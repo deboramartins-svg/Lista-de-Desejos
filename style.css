@@ -1,0 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=JetBrains+Mono:wght@400;700&display=swap');
+
+:root {
+    --bg: #050506;
+    --card: #0d0d10;
+    --text: #ffffff;
+    --muted: rgba(255, 255, 255, 0.5);
+    --cyan: #d904ff;
+    --purple: #bc13fe;
+    --border: rgba(188, 19, 254, 0.25);
+}
+
+/* Cores para o Modo Claro */
+body.light-theme {
+    --bg: #f4f4f9;
+    --card: #ffffff;
+    --text: #1a1a1a;
+    --muted: rgba(0, 0, 0, 0.5);
+    --cyan: #b000cc;
+    --purple: #9500d1;
+    --border: rgba(149, 0, 209, 0.25);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    min-height: 100vh;
+    padding: 20px 10px;
+    transition: background 0.3s, color 0.3s;
+}
+
+/* Botão de Trocar Tema Flutuante */
+#themeToggleBtn {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 8px 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.9rem;
+    z-index: 999;
+    transition: 0.3s;
+}
+
+#themeToggleBtn:hover {
+    border-color: var(--cyan);
+    transform: scale(1.1);
+}
+
+.grid-3d {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+    background-image: linear-gradient(var(--border) 1px, transparent 1px),
+                      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 30px 30px;
+    opacity: 0.08; 
+    z-index: 1;
+    pointer-events: none;
+}
+
+.container {
+    max-width: 550px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 3;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2.5rem;
+    color: var(--cyan);
+    font-weight: 400;
+}
+
+.header p {
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+}
+
+/* Input minimalista */
+.add-box {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.add-box input {
+    flex: 1;
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    border-radius: 6px;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    outline: none;
+}
+
+.add-box input:focus { border-color: var(--cyan); }
+
+.add-box button {
+    background: var(--purple);
+    color: white;
+    border: none;
+    padding: 0 14px;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.add-box button:hover { background: var(--cyan); color: var(--bg); }
+
+/* Grid Compacto */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 8px;
+}
+
+.project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 10px 12px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: grab;
+    user-select: none;
+    transition: 0.2s;
+}
+
+.project-card:active { cursor: grabbing; }
+.project-card.dragging { opacity: 0.3; border: 1px dashed var(--cyan); }
+.project-card:hover { border-color: var(--cyan); }
+
+.project-card h3 {
+    font-size: 0.75rem;
+    font-weight: 400;
+    pointer-events: none;
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 0.85rem;
+    cursor: pointer;
+    padding-left: 6px;
+}
+
+.delete-btn:hover { color: #ff4d4d; }
+
+/* Comprado */
+.project-card.purchased {
+    background: var(--purple);
+    border-color: #000;
+    opacity: 0.5;
+}
+
+.project-card.purchased h3 {
+    text-decoration: line-through;
+    color: #fff;
+}
+
+.project-card.purchased .delete-btn { color: rgba(255,255,255,0.7); }
+
+/* Estrelas */
+.star-explosion {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    font-size: 1.2rem;
+    color: var(--cyan);
+    animation: star-animate 0.6s ease-out forwards;
+}
+
+@keyframes star-animate {
+    0% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
+    100% { transform: translate(calc(-50% + var(--random-x)), calc(-50% + var(--random-y))) scale(1.3) rotate(180deg); opacity: 0; }
+}
+
+/* --- EFEITO DE CASCATA NO FUNDO --- */
+.falling-item {
+    position: fixed;
+    top: -50px;
+    z-index: 2;
+    user-select: none;
+    pointer-events: none;
+    animation: fall linear infinite;
+    opacity: 0.4;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-50px) rotate(0deg);
+    }
+    100% {
+        transform: translateY(105vh) rotate(360deg);
+    }
+}
